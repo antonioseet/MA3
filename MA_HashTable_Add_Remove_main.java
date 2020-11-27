@@ -21,8 +21,6 @@ public class MA_HashTable_Add_Remove_main
 
 	public static void main(String[] args) {
 		
-		//tonysDemo();
-		
 		small_demo();
 		int testing_result = run_tests();
 
@@ -33,31 +31,6 @@ public class MA_HashTable_Add_Remove_main
 		}
 		System.exit(testing_result);                    // 0 means all tests pass
 	}
-	
-	public static void tonysDemo() {
-		
-		System.out.println(" ----- Tony Demo ----- ");
-        LinearHashTable<String, String> ht = new LinearHashTable<>(new SimpleStringHasher());
-        ht.addElement("a", "a");
-    	ht.addElement("bb", "bb");
-    	ht.addElement("ccc", "ccc");
-    	ht.addElement("dddd", "dddd");
-		ht.addElement("fffff", "fffff");
-
-		ht.addElement("gggg", "gggg");
-		
-		ht.printOut();
-		
-		ht.removeElement("bb");
-		ht.removeElement("gggg");
-		ht.removeElement("fffff");
-		
-		ht.printOut();
-		
-		System.exit(1);
-		
-	}
-	
 
 	// Suite of tests on our Hash Table implementation
 	public static int run_tests() {

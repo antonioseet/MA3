@@ -58,6 +58,7 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
         // MA TODO: find empty slot to insert (update HashItem as necessary)
         HashItem<K, V> element = super.getItems().elementAt(hash);
         
+        // Here we search for an available spot for our element, if current hash is occupied, we move on to the next one.
         while (!element.isEmpty())
         {
         	hash++; //move up the table
@@ -66,21 +67,16 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
                hash = 0;
             
             element = super.getItems().elementAt(hash);
-            
-            //System.out.println("key:" +key +": " + hash);
 
         }
 
-        // probe the element
+        // insert the element
         super.getItems().elementAt(hash).setKey(key);
-        super.getItems().elementAt(hash).setValue(value);  //Updating the attributes of HashItem if empty spot is found
+        super.getItems().elementAt(hash).setValue(value);
         super.getItems().elementAt(hash).setIsEmpty(false);
         
-        
-
-        // Remember how many things we are presently storing (size N)
-    	//  Hint: do we always increase the size whenever this function is called?
         _number_of_elements++;
+        
         return;
     }
 
@@ -90,53 +86,41 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
         // Calculate hash from key
         int hash = super.getHash(key);
 
-        // MA TODO: find slot to remove. Remember to check for infinite loop!
-        //  ALSO: Use lazy deletion - see structure of HashItem
-
-        System.out.println("________________________");
-        System.out.println("REMOVE:" + key);
-        System.out.println("________________________");
+        // initialize a boolean to keep track of when we need to stop searching
         boolean tryingToRemove = true;
+        
+        // original hash so we avoid infinite loops
         int originalHash = hash;
     	
         while(tryingToRemove)
         {
         	
-        	System.out.println("HASH: "+ hash);
-        	System.out.println("CAP: " + super.getItems().capacity());
-        	
         	HashItem<K, V> element = super.getItems().elementAt(hash);
         	
+        	
+        	// if we find a key match, we can remove the item
         	if(!element.isEmpty() && element.getKey().equals(key))
         	{
-        		System.out.println("FOUND AT: " + hash);
-        		//element.setKey(null);
-                //element.setValue(null);
                 element.setIsEmpty(true);
         		tryingToRemove = false;
         	}
-        	else
+        	else // move to next item
         	{
         		
         		hash++;
         		
+        		//if at the end of table, go to the start
         		if(hash >= super.getItems().capacity())
         		{
         			hash = 0;
         		}
         		
+        		// if we went around once, we can abort the search
         		if(hash == originalHash) {
         			tryingToRemove = false;
-        			//System.out.println("NO MATCH FOUND");
         		}
-        		
-        		
         	}
         }
-        
-        //System.out.println("________________________");
-        //System.out.println("");
-        
         
         _number_of_elements--;
         
